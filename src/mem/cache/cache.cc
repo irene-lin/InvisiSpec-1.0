@@ -60,6 +60,7 @@
 #include "debug/CachePort.hh"
 #include "debug/CacheTags.hh"
 #include "debug/CacheVerbose.hh"
+#include "debug/HelloExample.hh"
 #include "mem/cache/blk.hh"
 #include "mem/cache/mshr.hh"
 #include "mem/cache/prefetch/base.hh"
@@ -322,6 +323,14 @@ Cache::access(PacketPtr pkt, CacheBlk *&blk, Cycles &lat,
 
     DPRINTF(Cache, "%s %s\n", pkt->print(),
             blk ? "hit " + blk->print() : "miss");
+    if ((pkt->print())[0] == 'R' // ReadReg
+        && pkt->print()[(pkt->print()).length()-1]==']' //from dcache (not IF)
+        && !blk) // miss
+        // todo
+        //&& pkt->getAddr() >= secret start addr
+        //&& pkt->getAddr() <= secret end addr
+        DPRINTF(HelloExample, "%s %s\n", pkt->print(),
+                blk ? "hit " + blk->print() : "miss");
 
     if (pkt->req->isCacheMaintenance()) {
         // A cache maintenance operation is always forwarded to the
@@ -1402,7 +1411,9 @@ Cache::recvTimingResp(PacketPtr pkt)
     if (is_fill && !is_error) {
         DPRINTF(Cache, "Block for addr %#llx being updated in Cache\n",
                 pkt->getAddr());
-
+        //DPRINTF(HelloExample,
+                //"Block for addr %#llx being updated in Cache\n",
+                //pkt->getAddr());
         blk = handleFill(pkt, blk, writebacks, mshr->allocOnFill());
         assert(blk != nullptr);
     }
@@ -1962,6 +1973,9 @@ Cache::handleFill(PacketPtr pkt, CacheBlk *blk, PacketList &writebacks,
 
     DPRINTF(Cache, "Block addr %#llx (%s) moving from state %x to %s\n",
             addr, is_secure ? "s" : "ns", old_state, blk->print());
+    //if (!old_state) DPRINTF(HelloExample,
+    //        "Block addr %#llx (%s) moving from state %x to %s\n",
+    //        addr, is_secure ? "s" : "ns", old_state, blk->print());
 
     // if we got new data, copy it in (checking for a read response
     // and a response that has data is the same in the end)

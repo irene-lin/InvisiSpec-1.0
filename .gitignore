@@ -3,6 +3,8 @@ parser.out
 parsetab.py
 cscope.files
 cscope.out
+*.txt
+*.out
 *.pyc
 *~
 .*.swp
