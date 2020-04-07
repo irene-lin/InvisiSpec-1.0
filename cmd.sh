@@ -30,7 +30,7 @@ elif [ "$1" = "makesim" ]; then
     --l1d_size=64kB --l1i_size=16kB --needsTSO=0 --scheme=UnsafeBaseline
 
 #recompile gem5
-elif [ "$1" = "sim" ]; then
+elif [ "$1" = "make" ]; then
     scons build/X86/gem5.opt;
     
 else
