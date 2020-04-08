@@ -38,9 +38,10 @@ def setup_command_line(args):
     if args.start:
         start = "--debug-start=%s"(args.start)
 
-    s = """build/{arch}/gem5.opt {flags} configs/example/se.py \
+    s = """build/{arch}/gem5.opt {flags} {output} {start} \
+    configs/example/se.py \
     --cmd={exe} --cpu-type={cpu} --caches --l1d_size=64kB --l1i_size=16kB \
-    --needsTSO=0 --scheme=UnsafeBaseline {output} {start}""".format(
+    --needsTSO=0 --scheme=UnsafeBaseline""".format(
     arch=arch, exe=exe, flags=flags, output=output, cpu=cpu, start=start)
     return s
 
