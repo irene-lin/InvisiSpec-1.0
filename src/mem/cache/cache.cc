@@ -325,10 +325,9 @@ Cache::access(PacketPtr pkt, CacheBlk *&blk, Cycles &lat,
             blk ? "hit " + blk->print() : "miss");
     if ((pkt->print())[0] == 'R' // ReadReg
         && pkt->print()[(pkt->print()).length()-1]==']' //from dcache (not IF)
-        && !blk) // miss
-        // todo
-        //&& pkt->getAddr() >= secret start addr
-        //&& pkt->getAddr() <= secret end addr
+        && !blk // miss
+        && pkt->getAddr() >= 0x494128 // secret start addr
+        && pkt->getAddr() <= 0x494150) // secret end addr
         DPRINTF(HelloExample, "%s %s\n", pkt->print(),
                 blk ? "hit " + blk->print() : "miss");
 
