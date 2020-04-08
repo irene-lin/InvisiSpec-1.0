@@ -3,12 +3,18 @@ import argparse
 import subprocess
 
 parser = argparse.ArgumentParser(description='Run benchmarks.')
-parser.add_argument('--arm', action="store_true")
-parser.add_argument('--output', '-o', action="store_true")
-parser.add_argument('--exe', default="attack_code/spectre_full.out")
-parser.add_argument('--flags', default="")
-parser.add_argument('--cpu', default="DerivO3CPU")
-parser.add_argument('--start', default="")
+parser.add_argument('--arm', action="store_true",
+  help="For running an ARM benchmark. Assumes you have ARM set up for GEM5")
+parser.add_argument('--output', '-o', action="store_true",
+  help="Will output a compressed log file named after exe if set")
+parser.add_argument('--exe', default="attack_code/spectre_full.out",
+  help="The program you want to benchmark")
+parser.add_argument('--flags', default="",
+  help="Debug flags you want set - use one string, comma separated")
+parser.add_argument('--cpu', default="DerivO3CPU",
+  help="The CPU model for GEM5. Default iS Deriv03CPU")
+parser.add_argument('--start', default="",
+  help="CPU ticks to start logging at")
 # arch: arm or x86
 # output file: default to exe.split(".")[0].out
 # debug flags: autoset to nothing
