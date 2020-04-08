@@ -24,3 +24,7 @@ gcc $FLAGS victim.o attack.o -o demo
 #    victim.o attack.o                           \
 #    -dynamic-linker /lib64/ld-linux-x86-64.so.2 \
 #    -o main_ELF_executable
+
+# Disassemble
+# Change -d to -D to get a disassembly of everything statically linked in
+objdump -d demo > demo.disas

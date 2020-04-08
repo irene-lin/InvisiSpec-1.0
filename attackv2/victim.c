@@ -1,6 +1,5 @@
 #include "victim.h"
-#include <stdio.h>
-#include <assert.h>
+#include <unistd.h>
 
 /* Compile with -ffixed-ebx to turn ebx into your own private
  * variable, reducing interference from the rest of the code */
@@ -27,6 +26,8 @@ int example_cmp(int a, int b) {
 }
 
 int victim_entry(cmp_func_t *cmp) {
+    PRINT("Begin victim_entry\n");
+
     /* We need an indirect branch, which the attacker will poison so
      * we speculatively execute the gadget. This function calls cmp, a
      * function pointer, which will compilie to an indirect branch.
@@ -40,5 +41,7 @@ int victim_entry(cmp_func_t *cmp) {
     for (size_t i = 1; i < sizeof(array) / sizeof(int); i++) {
         sorted &= (*cmp)(array[i-1], array[i]);
     }
+
+    PRINT("End victim_entry\n");
     return sorted;
 }
