@@ -60,7 +60,7 @@
 #include "debug/CachePort.hh"
 #include "debug/CacheTags.hh"
 #include "debug/CacheVerbose.hh"
-#include "debug/HelloExample.hh"
+#include "debug/Ret742Cache.hh"
 #include "mem/cache/blk.hh"
 #include "mem/cache/mshr.hh"
 #include "mem/cache/prefetch/base.hh"
@@ -329,7 +329,7 @@ Cache::access(PacketPtr pkt, CacheBlk *&blk, Cycles &lat,
         // todo
         //&& pkt->getAddr() >= secret start addr
         //&& pkt->getAddr() <= secret end addr
-        DPRINTF(HelloExample, "%s %s\n", pkt->print(),
+        DPRINTF(Ret742Cache, "%s %s\n", pkt->print(),
                 blk ? "hit " + blk->print() : "miss");
 
     if (pkt->req->isCacheMaintenance()) {
@@ -1411,7 +1411,7 @@ Cache::recvTimingResp(PacketPtr pkt)
     if (is_fill && !is_error) {
         DPRINTF(Cache, "Block for addr %#llx being updated in Cache\n",
                 pkt->getAddr());
-        //DPRINTF(HelloExample,
+        //DPRINTF(Ret742Cache,
                 //"Block for addr %#llx being updated in Cache\n",
                 //pkt->getAddr());
         blk = handleFill(pkt, blk, writebacks, mshr->allocOnFill());
@@ -1973,7 +1973,7 @@ Cache::handleFill(PacketPtr pkt, CacheBlk *blk, PacketList &writebacks,
 
     DPRINTF(Cache, "Block addr %#llx (%s) moving from state %x to %s\n",
             addr, is_secure ? "s" : "ns", old_state, blk->print());
-    //if (!old_state) DPRINTF(HelloExample,
+    //if (!old_state) DPRINTF(Ret742Cache,
     //        "Block addr %#llx (%s) moving from state %x to %s\n",
     //        addr, is_secure ? "s" : "ns", old_state, blk->print());
 
