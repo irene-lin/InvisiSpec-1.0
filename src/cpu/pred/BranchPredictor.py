@@ -43,11 +43,11 @@ class BranchPredictor(SimObject):
     instShiftAmt = Param.Unsigned(2, "Number of bits to shift instructions by")
 
     useIndirect = Param.Bool(True, "Use indirect branch predictor")
-    indirectHashGHR = Param.Bool(True, "Hash branch predictor GHR")
-    indirectHashTargets = Param.Bool(True, "Hash path history targets")
+    indirectHashGHR = Param.Bool(False, "Hash branch predictor GHR")
+    indirectHashTargets = Param.Bool(False, "Hash path history targets")
     indirectSets = Param.Unsigned(256, "Cache sets for indirect predictor")
     indirectWays = Param.Unsigned(2, "Ways for indirect predictor")
-    indirectTagSize = Param.Unsigned(16, "Indirect target cache tag bits")
+    indirectTagSize = Param.Unsigned(8, "Indirect target cache tag bits")
     indirectPathLength = Param.Unsigned(3,
         "Previous indirect targets to use for path history")
 
@@ -110,4 +110,3 @@ class LTAGE(BranchPredictor):
     minHist = Param.Unsigned(4, "Minimum history size of LTAGE")
     maxHist = Param.Unsigned(640, "Maximum history size of LTAGE")
     minTagWidth = Param.Unsigned(7, "Minimum tag size in tag tables")
-
