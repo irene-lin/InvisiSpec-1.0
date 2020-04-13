@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd /sbin/
+./spectre-meltdown-checker.sh
