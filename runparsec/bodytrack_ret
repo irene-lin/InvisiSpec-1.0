@@ -1,0 +1,7 @@
+#!/bin/sh
+# File to run the blackscholes benchmark
+cd $home/18742/parsec-3.0/pkgs/apps/bodytrack/inst/amd64-linux.ret/bin/
+/sbin/m5 dumpresetstats
+./bodytrack sequenceB_1 4 1 1000 5 0 1
+echo "Done :D"
+/sbin/m5 exit
