@@ -1,6 +1,8 @@
-#include "victim.h"
-#include "repeat.h"
 #include <unistd.h>
+#include <x86intrin.h> /* for rdtscp and clflush */
+
+#include "repeat.h"
+#include "victim.h"
 
 /* Gives this program access to ebx */
 register void *ebx __asm("rbx");
@@ -27,7 +29,7 @@ void alignment_dummy(void) {
      * to repeat that many times.
      *
      */
-    REPEAT_216( \
+    REPEAT_228( \
     __asm("xchg %rax, %rax"); \
     __asm("xchg %rax, %rax"); \
     __asm("xchg %rax, %rax"); \
@@ -57,6 +59,9 @@ void poison_branch(void) {
 }
 
 int main(void) {
+    /* Flush secret from the cache */
+    _mm_clflush(secret);
+
     /* Poison the target branch */
     for (int i = 0; i < poison_iterations; i++) {
         poison_branch();
@@ -70,6 +75,10 @@ int main(void) {
 
     /* This is where we'd perform a cache timing attack to recover the
      * the secret, but we're using gem5 to snoop the cache explicitly */
+
+    /* Check to see if secret made it into the cache */
+    char a = *secret;
+    (void)a;
 
     return 0;
 }
