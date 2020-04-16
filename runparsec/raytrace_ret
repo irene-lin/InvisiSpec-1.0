@@ -1,0 +1,7 @@
+#!/bin/sh
+# File to run the raytrace benchmark
+cd $home/18742/parsec-3.0/pkgs/apps/raytrace/inst/amd64-linux.ret/bin/
+/sbin/m5 dumpresetstats
+./rtview happy_buddha.obj -automove -nthreads 1 -frames 3 -res 480 270
+echo "Done :D"
+/sbin/m5 exit

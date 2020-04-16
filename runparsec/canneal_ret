@@ -1,0 +1,7 @@
+#!/bin/sh
+# File to run the canneal benchmark
+cd $home/18742/parsec-3.0/pkgs/apps/canneal/inst/amd64-linux.ret/bin/
+/sbin/m5 dumpresetstats
+./canneal 1 10000 2000 100000.nets 32
+echo "Done :D"
+/sbin/m5 exit

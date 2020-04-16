@@ -1,0 +1,7 @@
+#!/bin/sh
+# File to run the vips benchmark
+cd $home/18742/parsec-3.0/pkgs/apps/vips/inst/amd64-linux.ret/bin/
+/sbin/m5 dumpresetstats
+./vips im_benchmark pomegranate_1600x1200.v output.v
+echo "Done :D"
+/sbin/m5 exit

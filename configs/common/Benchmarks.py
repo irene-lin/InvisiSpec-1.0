@@ -1,6 +1,5 @@
 # Copyright (c) 2006-2007 The Regents of The University of Michigan
 # All rights reserved.
-#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
 # met: redistributions of source code must retain the above copyright
@@ -57,7 +56,8 @@ class SysConfig:
         elif buildEnv['TARGET_ISA'] == 'alpha':
             return env.get('LINUX_IMAGE', disk('alpha-parsec.img'))
         elif buildEnv['TARGET_ISA'] == 'x86':
-            return env.get('LINUX_IMAGE', disk('x86root.img'))
+            return env.get('LINUX_IMAGE', disk('amd64-linux.img'))
+            #changed from x86root
         elif buildEnv['TARGET_ISA'] == 'arm':
             return env.get('LINUX_IMAGE', disk('aarch64-ubuntu-trusty-headless.img'))
         elif buildEnv['TARGET_ISA'] == 'sparc':
