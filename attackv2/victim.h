@@ -1,9 +1,6 @@
 #ifndef VICTIM_H
 #define VICTIM_H
 
-/* Print using a syscall for cases where we don't want to add a ton of cycles */
-#define PRINT(s) write(STDOUT_FILENO, s, sizeof(s) - 1)
-
 extern char *secret;
 
 void gadget(void);

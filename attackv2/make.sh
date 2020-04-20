@@ -3,7 +3,9 @@
 # Listen, Makefiles are hard, ok?
 
 # Flags common to both files
-FLAGS="-ffixed-ebx -ggdb3 -std=c99 -static -O0 -Wall -Wextra -Werror -g"
+FLAGS="-ffixed-ebx \
+-mindirect-branch=thunk \
+-ggdb3 -std=c99 -static -O0 -Wall -Wextra -Werror -g"
 
 # Here's where you'd add retpoline
 VICTIM_FLAGS=$FLAGS
@@ -28,3 +30,10 @@ gcc $FLAGS victim.o attack.o -o demo
 # Disassemble
 # Change -d to -D to get a disassembly of everything statically linked in
 objdump -d demo > demo.disas
+
+# Get relevant addresses
+grep -e '<example_cmp>' -e '<gadget>' -e '<victim_entry>' -e '4010ab:' -e '4014ab:' \
+demo.disas
+
+# print secret 
+gdb demo  < gdb_commands.txt

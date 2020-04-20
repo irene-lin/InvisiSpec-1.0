@@ -26,8 +26,6 @@ int example_cmp(int a, int b) {
 }
 
 int victim_entry(cmp_func_t *cmp) {
-    PRINT("Begin victim_entry\n");
-
     /* We need an indirect branch, which the attacker will poison so
      * we speculatively execute the gadget. This function calls cmp, a
      * function pointer, which will compilie to an indirect branch.
@@ -42,6 +40,5 @@ int victim_entry(cmp_func_t *cmp) {
         sorted &= (*cmp)(array[i-1], array[i]);
     }
 
-    PRINT("End victim_entry\n");
     return sorted;
 }

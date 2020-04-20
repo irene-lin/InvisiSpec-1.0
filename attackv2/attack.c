@@ -29,7 +29,7 @@ void alignment_dummy(void) {
      * to repeat that many times.
      *
      */
-    REPEAT_228( \
+    REPEAT_223( \
     __asm("xchg %rax, %rax"); \
     __asm("xchg %rax, %rax"); \
     __asm("xchg %rax, %rax"); \
