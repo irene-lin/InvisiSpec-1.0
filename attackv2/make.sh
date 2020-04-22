@@ -1,10 +1,13 @@
 #!/bin/bash
 
+# make.sh compiles the exploit code without repoline 
+# and prints important addresses
+# produces the binaries and asm
+
 # Listen, Makefiles are hard, ok?
 
 # Flags common to both files
 FLAGS="-ffixed-ebx \
--mindirect-branch=thunk \
 -ggdb3 -std=c99 -static -O0 -Wall -Wextra -Werror -g"
 
 # Here's where you'd add retpoline

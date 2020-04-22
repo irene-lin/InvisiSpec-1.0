@@ -10,6 +10,8 @@ if [ "$1" = "help" ]; then
     echo "sim debugFlag path/executable     : run gem5 using debugFlag on executable"
     echo "makesim debugFlag path/executable : same as sim, but also recompiles gem5"
     echo "make                              : recompiles gem5"
+    echo "makeDemo                          : build exploit"
+    echo "makeDemoRet                       : build exploit with retpoline flags"
     echo "fs path/script                    : Run script on the full system (examples in scripts/)"
     echo "fs_ck                             : Make a checkpoint for running the full system"
     echo ""
@@ -39,6 +41,14 @@ elif [ "$1" = "makesim" ]; then
 #recompile gem5
 elif [ "$1" = "make" ]; then
     scons $GEM5;
+
+#compile variant 2 exploit
+elif [ "$1" = "makeDemo" ]; then
+    cd attackv2; ./make.sh; ../;
+
+#compile variant 2 exploit with retpoline
+elif [ "$1" = "makeDemoRet" ]; then
+    cd attackv2; ./makeRet.sh; ../;
 
 #make a checkpoint for the full system using AtomicSimpleCPU
 elif [ "$1" = "fs_ck" ]; then
