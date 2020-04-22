@@ -2,6 +2,10 @@
 # Retpoline
 
 ## Files
+cmd.sh              Makefile to build and run gem5 and exploits
+no\_ret.log         Log file for attackv2/demoRet
+ret.log             Log file for attackv2/demo
+
 ./attackv2:
 attack.c            Code to mistrain the btb
 demo                Executable for the attack compiled without Retpoline
