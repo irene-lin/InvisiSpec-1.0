@@ -3,8 +3,8 @@
 
 ## Files
 * cmd.sh - Makefile to build and run gem5 and exploits
-* no\_ret.log - Log file for attackv2/demoRet
-* ret.log - Log file for attackv2/demo
+* demoRet.log - Log file for attackv2/demoRet
+* demo.log - Log file for attackv2/demo
 
 * ./attackv2:
     * attack.c - Code to mistrain the btb
@@ -21,14 +21,26 @@
 
 We made following major changes in gem5:
 
-## How to run the exploit
-Run without retpoline enabled
+## How to compile the exploit
+Run without retpoline enabled. This will generate demo and demo.disas
 ```
 ./cmd.sh makeDemo
 ```
-Run with retpoline enabled
+Run with retpoline enabled. This will generate demoRet and demoRet.disas
 ```
 ./cmd.sh makeDemoRet
 ```
+The above two commands will also output the gadget target address, benign comparison function target address, and the addresses of the indirect branch instructions.
 ## How to run the simulator
-
+Recompile GEM5 if you haven't already.
+```
+./cmd.sh make
+```
+Simulate execution for demo without Retpoline enabled. Run with debug flags Exec,Indirect,Cache and pipe output to a file.
+```
+./cmd.sh sim Exec,Indirect,Cache attackv2/demo > demo.log
+```
+Simulate execution for demo with Retpoline enabled. Use same debug flags
+```
+./cmd.sh sim Exec,Indirect,Cache attackv2/demoRet > demoRet.log
+```
