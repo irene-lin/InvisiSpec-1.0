@@ -186,7 +186,7 @@ fi
 OUTPUT_DIR=$GEM5_PATH/output/SPEC-$BENCHMARK-$SCHEME
 CKPT_OUT_DIR=$GEM5_PATH/../gem5_ckpt/$BENCHMARK-1-ref-x86
 
-echo "checkpoint direcotory: " $CKPT_OUT_DIR
+echo "checkpoint directory: " $CKPT_OUT_DIR
 echo "output directory: " $OUTPUT_DIR
 
 if [ -d "$OUTPUT_DIR" ]
@@ -227,7 +227,7 @@ echo "" | tee -a $SCRIPT_OUT
 echo "" | tee -a $SCRIPT_OUT
  
 # Actually launch gem5!
-$GEM5_PATH/build/X86_MESI_Two_Level/gem5.fast \
+$GEM5_PATH/build/X86/gem5.opt \
 	--outdir=$OUTPUT_DIR $GEM5_PATH/configs/example/spec06_config.py \
 	--benchmark=$BENCHMARK --benchmark_stdout=$OUTPUT_DIR/$BENCHMARK.out \
 	--benchmark_stderr=$OUTPUT_DIR/$BENCHMARK.err \
