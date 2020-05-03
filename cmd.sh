@@ -14,6 +14,7 @@ if [ "$1" = "help" ]; then
     echo "makeDemoRet                       : build exploit with retpoline flags"
     echo "fs path/script                    : Run script on the full system (examples in scripts/)"
     echo "fs_ck                             : Make a checkpoint for running the full system"
+    echo "timing                            : Build and run timing benchmarks"
     echo ""
 
 #compile and run attack code with retpoline flags
@@ -94,6 +95,21 @@ elif [ "$1" = "fs" ]; then
           --disk-image=amd64-linux.img                                     \
           --script=$2 > $OUTPUT_DIR/log.out 2>&1
 
+#build and run timing benchmarks
+elif [ "$1" = "timing" ]; then
+    cd timing; ./make_timing.sh; cd ..; 
+    $GEM5 configs/example/se.py \
+    --cmd=timing/timing_best --cpu-type=DerivO3CPU --caches \
+    --l1d_size=64kB --l1i_size=16kB --needsTSO=0 --scheme=UnsafeBaseline;
+    $GEM5 configs/example/se.py \
+    --cmd=timing/timing_best_ret --cpu-type=DerivO3CPU --caches \
+    --l1d_size=64kB --l1i_size=16kB --needsTSO=0 --scheme=UnsafeBaseline;
+    $GEM5 configs/example/se.py \
+    --cmd=timing/timing_worst --cpu-type=DerivO3CPU --caches \
+    --l1d_size=64kB --l1i_size=16kB --needsTSO=0 --scheme=UnsafeBaseline;
+    $GEM5 configs/example/se.py \
+    --cmd=timing/timing_worst_ret --cpu-type=DerivO3CPU --caches \
+    --l1d_size=64kB --l1i_size=16kB --needsTSO=0 --scheme=UnsafeBaseline;
 else
     echo "invalid command"
 fi

@@ -17,6 +17,15 @@
     * make.sh - Build and link the exploit code without Retpoline
     * victim.c - Code that makes an indirect jump
 
+* ./timing:
+    * make\_timing.sh - Build the timing benchmarks
+    * timing\_best.c - Makes many indirect jumps to the same function
+    * timing\_best.disas - timing\_best.c benchmark compiled without Retpoline
+    * timing\_best\_ret.disas - timing\_best.c benchmark compiled with Retpoline
+    * timing\_worst.c - Makes many indirect jumps to alternating functions
+    * timing\_worst.disas - timing\_worst.c benchmark compiled with Retpoline
+    * timing\_worst\_ret.disas - timing\_worst.c benchmark compiled with Retpoline
+    
 ## Major changes in the simulator.
 
 We made following major changes in gem5:
@@ -43,4 +52,9 @@ Simulate execution for demo without Retpoline enabled. Run with debug flags Exec
 Simulate execution for demo with Retpoline enabled. Use same debug flags
 ```
 ./cmd.sh sim Exec,Indirect,Cache attackv2/demoRet > demoRet.log
+```
+## How to run timing benchmarks
+This command will simulate in gem5 timing\_best.c without Repoline and with Repoline, and then simulate in gem5 timing\_worst.c without Retpoline and with Retpoline.
+```
+./cmd.sh timing
 ```
