@@ -25,7 +25,8 @@ fi
 WORKLOAD=blackscholes
 INPUT_SIZE=test
 #simmedium
-SCHEME=FuturisticSafeInvisibleSpec
+SCHEME=UnsafeBaseline
+#FuturisticSafeInvisibleSpec
 #FuturisticSafeFence
 CORE_NUM=4
 ISA=arm
@@ -36,7 +37,7 @@ OUT_DIR=$GEM5_PATH/output/$WORKLOAD-$CORE_NUM-$INPUT_SIZE-$ISA-$SCHEME
 
 CONFIG_FILE=$GEM5_PATH/configs/example/fs.py 
 
-echo "scirpt file: " $SCRIPT_FILE
+echo "script file: " $SCRIPT_FILE
 echo "checkpoint direcotory: " $CKPT_OUT_DIR
 echo "output directory: " $OUT_DIR
 
@@ -49,16 +50,16 @@ fi
 echo "create output directory"
 mkdir -p $OUT_DIR
 
-    echo "run arm simulator"
+    echo "run x86 simulator"
     # always use opt to test simulator locally, otherwise messages may not print
-    $GEM5_PATH/build/ARM_MESI_Two_Level/gem5.opt \
+    $GEM5_PATH/build/X86/gem5.opt \
         --outdir=$OUT_DIR     $CONFIG_FILE \
         --checkpoint-dir=$CKPT_OUT_DIR \
         --script=$SCRIPT_FILE \
-        --machine-type=VExpress_EMM64 \
-        --kernel=$M5_PATH/binaries/vmlinux.aarch64.20140821 \
-        --dtb-file=$M5_PATH/binaries/vexpress.aarch64.20140821.dtb \
-        --disk-image=$M5_PATH/disks/aarch64-ubuntu-trusty-headless.img \
+        # --machine-type=LINUX \
+        --kernel=$M5_PATH/binaries/vmlinux \
+        # --dtb-file=$M5_PATH/binaries/vexpress.aarch64.20140821.dtb \
+        --disk-image=$M5_PATH/disks/amd64-linux.img \
         --num-cpus=$CORE_NUM --mem-size=2GB --num-l2caches=$CORE_NUM \
         --num-dirs=$CORE_NUM --network=simple --topology=Mesh_XY --mesh-rows=4 \
         --l1d_assoc=8 --l2_assoc=16 --l1i_assoc=4 \
